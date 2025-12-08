@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>COSMO-Check – Protect Your Skin from Viral Beauty Trends</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg-soft: #111827;
+      --primary: #6d28d9;
+      --primary-soft: #a855f7;
+      --accent: #f97316;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --card: #020617;
+      --glass: rgba(255,255,255,0.05);
+      --glass-border: rgba(255,255,255,0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #1f2937 0%, var(--card) 55%);
+      color: var(--text);
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    #root {
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem 1.25rem;
+    }
+
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(20px);
+      background: rgba(2, 6, 23, 0.9);
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      font-size: 1.4rem;
+    }
+
+    .logo-mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      background: conic-gradient(from 180deg, var(--primary), var(--primary-soft), var(--accent), var(--primary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: white;
+      box-shadow: 0 8px 32px rgba(109, 40, 217, 0.4);
+    }
+
+    /* Navigation Tabs */
+    .tabs {
+      display: flex;
+      gap: 0.75rem;
+      background: var(--glass);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 2rem;
+      padding: 0.25rem;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      flex: 1;
+      min-width: 100px;
+      padding: 0.875rem 1.25rem;
+      border-radius: 1.5rem;
+      border: none;
+      background: none;
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, var(--primary), var(--primary-soft));
+      color: white;
+      box-shadow: 0 8px 32px rgba(109, 40, 217, 0.4);
+      transform: translateY(-1px);
+    }
+
+    .tab-btn:hover:not(.active) {
+      color: var(--text);
+      background: var(--glass);
+    }
+
+    .stats {
+      display: flex;
+      gap: 1.5rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .stats div {
+      text-align: right;
+    }
+
+    /* Content Cards */
+    .card {
+      background: var(--glass);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 1.5rem;
+      padding: 2rem;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+
+    .hero-card {
+      padding: 3rem;
+      background: linear-gradient(145deg, rgba(15,23,42,0.8), var(--card));
+    }
+
+    .h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary-soft), #fbbf24);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin: 0 0 1rem;
+      line-height: 1.1;
+    }
+
+    .h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin: 0 0 1rem;
+      color: var(--text);
+    }
+
+    .h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin: 0 0 0.75rem;
+      color: var(--text);
+    }
+
+    /* Form Elements */
+    input, textarea, select {
+      background: var(--card);
+      border: 1px solid var(--glass-border);
+      border-radius: 1rem;
+      padding: 0.875rem 1.25rem;
+      color: var(--text);
+      font-size: 1rem;
+      width: 100%;
+      transition: all 0.3s ease;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.2);
+    }
+
+    input::placeholder {
+      color: var(--muted);
+    }
+
+    .btn {
+      padding: 0.875rem 1.75rem;
+      border-radius: 1rem;
+      border: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-soft));
+      color: white;
+      box-shadow: 0 10px 30px rgba(109, 40, 217, 0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 40px rgba(109, 40, 217, 0.5);
+    }
+
+    /* Risk Cards */
+    .risk-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .risk-safe { border-color: rgba(34, 197, 94, 0.3); background: rgba(34, 197, 94, 0.1); }
+    .risk-caution { border-color: rgba(245, 158, 11, 0.3); background: rgba(245, 158, 11, 0.1); }
+    .risk-warning { border-color: rgba(239, 68, 68, 0.3); background: rgba(239, 68, 68, 0.1); }
+
+    .risk-score {
+      font-size: clamp(3rem, 10vw, 8rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--primary-soft));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    /* Grid */
+    .grid {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .grid-2 { grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container { padding: 1rem; }
+      .tabs { flex-direction: column; }
+      .stats { display: none; }
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-fade-in-up {
+      animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- React + Babel -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    const CosmoCheckApp = () => {
+      const [activeTab, setActiveTab] = useState('home');
+      const [trends, setTrends] = useState([]);
+      const [brands, setBrands] = useState([]);
+      const [dermatologists, setDermatologists] = useState([]);
+      const [selectedBrand, setSelectedBrand] = useState(null);
+      const [userReports, setUserReports] = useState([]);
+      const [checkInput, setCheckInput] = useState('');
+      const [selectedTrend, setSelectedTrend] = useState(null);
+      const [reportForm, setReportForm] = useState({
+        trendName: '', brandName: '', symptoms: [], severity: 'mild', description: ''
+      });
+      const [loading, setLoading] = useState(true);
+
+      // Mock data incl. dermatology add-on
+      useEffect(() => {
+        const mockBrands = [
+          { id: 1, name: 'The Ordinary', logo: '🧪', totalReports: 234, avgRiskScore: 32, status: 'safe', trendCount: 8 },
+          { id: 2, name: 'CeraVe', logo: '💙', totalReports: 89, avgRiskScore: 15, status: 'safe', trendCount: 5 },
+          { id: 3, name: 'TikTok DIY', logo: '🎥', totalReports: 567, avgRiskScore: 73, status: 'warning', trendCount: 15 },
+          { id: 4, name: 'Drunk Elephant', logo: '🐘', totalReports: 156, avgRiskScore: 28, status: 'safe', trendCount: 6 },
+          { id: 5, name: 'La Roche-Posay', logo: '💧', totalReports: 43, avgRiskScore: 12, status: 'safe', trendCount: 4 },
+          { id: 6, name: 'Homemade Recipes', logo: '🏠', totalReports: 423, avgRiskScore: 68, status: 'warning', trendCount: 12 }
+        ];
+
+        const mockTrends = [
+          {
+            id: 1,
+            name: 'Skin Cycling Routine',
+            brandId: null,
+            brandName: 'General Practice',
+            icon: 'routine',
+            riskScore: 25,
+            status: 'safe',
+            reports: 12,
+            lastUpdated: '2 hours ago',
+            description: 'Structured routine alternating actives and recovery nights.',
+            commonSymptoms: ['Mild dryness', 'Initial purging'],
+            recommendations: 'Start slowly, buffer with moisturizer, and monitor your skin barrier.',
+            dermConsensus: {
+              rating: 4.6,
+              label: 'Generally safe when done correctly',
+              summary: 'Most dermatologists consider skin cycling a barrier-friendly way to introduce actives, especially for beginners.',
+            },
+            dermExperts: [
+              {
+                name: 'Dr. Amrita Shah, MD',
+                tagline: 'Board-certified dermatologist – acne & barrier repair',
+                url: 'https://example.com/derm/amrita-shah'
+              },
+              {
+                name: 'Dr. Luis Moreno, MD',
+                tagline: 'Skin-of-color specialist',
+                url: 'https://example.com/derm/luis-moreno'
+              }
+            ]
+          },
+          {
+            id: 2,
+            name: 'Niacinamide + AHA/BHA Peel',
+            brandId: 1,
+            brandName: 'The Ordinary',
+            icon: 'serum',
+            riskScore: 71,
+            status: 'warning',
+            reports: 98,
+            lastUpdated: '30 min ago',
+            description: 'Using niacinamide immediately with high-strength AHA/BHA peeling solution.',
+            commonSymptoms: ['Chemical burns', 'Severe redness', 'Peeling'],
+            recommendations: 'NEVER layer strong acids and actives together on the same night. Space them out or use on different days.',
+            dermConsensus: {
+              rating: 1.5,
+              label: 'Avoid this combo',
+              summary: 'Dermatologists strongly discourage stacking high-strength acids with other potent actives in one routine due to burn risk.'
+            },
+            dermExperts: [
+              {
+                name: 'Dr. Priya Nair, MD',
+                tagline: 'Chemical peel & PIH specialist',
+                url: 'https://example.com/derm/priya-nair'
+              }
+            ]
+          },
+          {
+            id: 3,
+            name: 'DIY Retinol + Vitamin C',
+            brandId: 3,
+            brandName: 'TikTok DIY',
+            icon: 'diy',
+            riskScore: 89,
+            status: 'warning',
+            reports: 187,
+            lastUpdated: '15 min ago',
+            description: 'Mixing retinol and vitamin C in the same DIY formulation or application.',
+            commonSymptoms: ['Chemical burns', 'Severe irritation', 'Peeling'],
+            recommendations: 'DO NOT MIX. Use vitamin C in the morning and retinol at night, and avoid DIY high-strength mixes.',
+            dermConsensus: {
+              rating: 1.2,
+              label: 'High damage potential',
+              summary: 'This is a classic “looks clever online, terrible for skin” combo. Dermatologists frequently see burns and barrier collapse.'
+            },
+            dermExperts: [
+              {
+                name: 'Dr. Lena Okafor, MD',
+                tagline: 'Retinoid & anti-aging dermatologist',
+                url: 'https://example.com/derm/lena-okafor'
+              },
+              {
+                name: 'Dr. Miguel Santos, MD',
+                tagline: 'Sensitive-skin & rosacea focus',
+                url: 'https://example.com/derm/miguel-santos'
+              }
+            ]
+          }
+        ];
+
+        const mockDerms = [
+          {
+            id: 1,
+            name: 'Dr. Amrita Shah, MD',
+            location: 'New York, USA',
+            expertise: 'Acne, barrier repair, evidence-based routines',
+            rating: 4.9,
+            consultUrl: 'https://example.com/derm/amrita-shah'
+          },
+          {
+            id: 2,
+            name: 'Dr. Priya Nair, MD',
+            location: 'San Francisco, USA',
+            expertise: 'Chemical peels, hyperpigmentation, skin of color',
+            rating: 4.8,
+            consultUrl: 'https://example.com/derm/priya-nair'
+          },
+          {
+            id: 3,
+            name: 'Dr. Lena Okafor, MD',
+            location: 'London, UK',
+            expertise: 'Retinoids, anti-aging, sensitive skin',
+            rating: 4.7,
+            consultUrl: 'https://example.com/derm/lena-okafor'
+          }
+        ];
+
+        setTimeout(() => {
+          setBrands(mockBrands);
+          setTrends(mockTrends);
+          setDermatologists(mockDerms);
+          setLoading(false);
+        }, 800);
+      }, []);
+
+      const getRiskClass = (status) => {
+        const classes = {
+          safe: 'risk-safe',
+          caution: 'risk-caution',
+          warning: 'risk-warning'
+        };
+        return classes[status] || '';
+      };
+
+      const handleCheckTrend = () => {
+        if (!checkInput.trim()) return;
+        const found = trends.find(t =>
+          t.name.toLowerCase().includes(checkInput.toLowerCase())
+        );
+        if (found) {
+          setSelectedTrend(found);
+        } else {
+          setSelectedTrend({
+            id: 'new',
+            name: checkInput,
+            riskScore: '?',
+            status: 'unknown',
+            reports: 0,
+            description: 'No data yet. Be first to report!',
+            commonSymptoms: [],
+            recommendations: 'Proceed with extreme caution until more safety data exists.'
+          });
+        }
+      };
+
+      const handleSubmitReport = (e) => {
+        e.preventDefault();
+        const newReport = {
+          id: Date.now(),
+          ...reportForm,
+          timestamp: new Date().toLocaleString()
+        };
+        setUserReports(prev => [newReport, ...prev]);
+        setReportForm({ trendName: '', brandName: '', symptoms: [], severity: 'mild', description: '' });
+        alert('✅ Thank you! Your report helps protect the community.');
+      };
+
+      const symptomOptions = ['Redness', 'Burning', 'Itching', 'Peeling', 'Breakouts', 'Dryness', 'Hyperpigmentation'];
+
+      if (loading) {
+        return (
+          <div className="container" style={{minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+            <div style={{textAlign: 'center'}}>
+              <div className="logo-mark" style={{margin: '0 auto 1rem', animation: 'spin 1s linear infinite'}}>C</div>
+              <div className="h1">Loading COSMO-Check...</div>
+            </div>
+          </div>
+        );
+      }
+
+      return (
+        <div>
+          {/* Header */}
+          <header>
+            <div className="nav">
+              <div className="logo">
+                <div className="logo-mark">C</div>
+                <span>COSMO-Check</span>
+              </div>
+              <div className="stats">
+                <div>
+                  <div style={{color: 'var(--primary-soft)'}}>{trends.length}</div>
+                  <div style={{color: 'var(--muted)', fontSize: '0.75rem'}}>Trends</div>
+                </div>
+                <div>
+                  <div style={{color: 'var(--accent)'}}>{userReports.length}</div>
+                  <div style={{color: 'var(--muted)', fontSize: '0.75rem'}}>Reports</div>
+                </div>
+                <div>
+                  <div style={{color: '#4ade80'}}>{dermatologists.length}</div>
+                  <div style={{color: 'var(--muted)', fontSize: '0.75rem'}}>Derm partners</div>
+                </div>
+              </div>
+            </div>
+          </header>
+
+          {/* Navigation */}
+          <nav className="container" style={{paddingBottom: '2rem'}}>
+            <div className="tabs">
+              <button className={`tab-btn ${activeTab === 'home' ? 'active' : ''}`} onClick={() => setActiveTab('home')}>
+                🛒 Home
+              </button>
+              <button className={`tab-btn ${activeTab === 'check' ? 'active' : ''}`} onClick={() => setActiveTab('check')}>
+                🔍 Check
+              </button>
+              <button className={`tab-btn ${activeTab === 'brands' ? 'active' : ''}`} onClick={() => setActiveTab('brands')}>
+                ✨ Brands
+              </button>
+              <button className={`tab-btn ${activeTab === 'report' ? 'active' : ''}`} onClick={() => setActiveTab('report')}>
+                ➕ Report
+              </button>
+              <button className={`tab-btn ${activeTab === 'alerts' ? 'active' : ''}`} onClick={() => setActiveTab('alerts')}>
+                🔔 Alerts
+              </button>
+              <button className={`tab-btn ${activeTab === 'derms' ? 'active' : ''}`} onClick={() => setActiveTab('derms')}>
+                🩺 Dermatologists
+              </button>
+            </div>
+          </nav>
+
+          {/* Content */}
+          <main className="container">
+            {/* HOME */}
+            {activeTab === 'home' && (
+              <div className="grid grid-2 animate-fade-in-up">
+                <div className="card hero-card">
+                  <h1 className="h1">Protect Your Skin</h1>
+                  <p style={{fontSize: '1.1rem', color: 'var(--muted)', lineHeight: 1.6}}>
+                    AI-powered safety scores for viral beauty trends, with dermatologist-backed
+                    recommendations and community reports. Check a trend before it reaches your skin.
+                  </p>
+                  <div style={{marginTop: '2rem'}}>
+                    <div className="grid grid-3" style={{gap: '1rem'}}>
+                      <div><strong>{trends.length}</strong> trends tracked</div>
+                      <div><strong>{brands.length}</strong> brands monitored</div>
+                      <div><strong>{trends.reduce((sum, t) => sum + t.reports, 0)}</strong> reports analyzed</div>
+                    </div>
+                    <div style={{marginTop: '1.5rem', fontSize: '0.9rem', color: 'var(--muted)'}}>
+                      <strong>{dermatologists.length}</strong> dermatologists in COSMO-Derm network rating trends and
+                      co-creating harm-reduction guidance.
+                    </div>
+                  </div>
+                </div>
+                <div className="card">
+                  <h2 className="h2">🚨 Active Warnings</h2>
+                  <div className="grid" style={{gap: '1rem'}}>
+                    {trends.filter(t => t.status === 'warning').slice(0,2).map(trend => (
+                      <div
+                        key={trend.id}
+                        className={`card risk-card ${getRiskClass(trend.status)} p-6 cursor-pointer hover:scale-[1.02] transition-transform`}
+                        onClick={() => { setSelectedTrend(trend); setActiveTab('check'); }}
+                      >
+                        <div className="flex items-center gap-4 mb-2">
+                          <div className="risk-score">{trend.riskScore}</div>
+                          <div>
+                            <div className="h3 mb-1">{trend.name}</div>
+                            <div style={{color: 'var(--muted)'}}>{trend.reports} reports</div>
+                            {trend.dermConsensus && (
+                              <div style={{marginTop: '0.4rem', fontSize: '0.85rem'}}>
+                                🩺 Derm consensus: <strong>{trend.dermConsensus.label}</strong>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                        <div style={{color: 'var(--muted)', fontSize: '0.9rem'}}>{trend.recommendations}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* CHECK */}
+            {activeTab === 'check' && (
+              <div className="max-w-2xl mx-auto animate-fade-in-up">
+                <div className="card">
+                  <h2 className="h2" style={{marginBottom: '2rem', textAlign: 'center'}}>Check Any Beauty Trend</h2>
+                  <div style={{display: 'grid', gap: '1.5rem'}}>
+                    <div style={{display: 'flex', gap: '1rem'}}>
+                      <input
+                        type="text"
+                        value={checkInput}
+                        onChange={(e) => setCheckInput(e.target.value)}
+                        onKeyPress={(e) => e.key === 'Enter' && handleCheckTrend()}
+                        placeholder="🔎 retinol vitamin C, ice facial, DIY peel..."
+                        style={{fontSize: '1.05rem'}}
+                      />
+                      <button className="btn btn-primary" onClick={handleCheckTrend} style={{whiteSpace: 'nowrap'}}>
+                        Analyze Risk
+                      </button>
+                    </div>
+
+                    {selectedTrend && (
+                      <div className={`card risk-card ${getRiskClass(selectedTrend.status)} p-8 text-center`}>
+                        <div className="risk-score">{selectedTrend.riskScore}</div>
+                        <h3 className="h3" style={{marginTop: '1rem', marginBottom: '1.5rem'}}>{selectedTrend.name}</h3>
+                        <p style={{color: 'var(--muted)', fontSize: '1.05rem'}}>{selectedTrend.description}</p>
+
+                        {selectedTrend.commonSymptoms?.length > 0 && (
+                          <div style={{marginTop: '2rem'}}>
+                            <h4 style={{fontSize: '1.1rem', marginBottom: '1rem'}}>⚠️ Common Reactions</h4>
+                            <div style={{display: 'flex', flexWrap: 'wrap', gap: '0.75rem', justifyContent: 'center'}}>
+                              {selectedTrend.commonSymptoms.map((symptom, i) => (
+                                <span
+                                  key={i}
+                                  style={{
+                                    background: 'rgba(255,255,255,0.08)',
+                                    padding: '0.5rem 1rem',
+                                    borderRadius: '999px',
+                                    border: '1px solid rgba(255,255,255,0.2)'
+                                  }}
+                                >
+                                  {symptom}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        <div
+                          className="mt-8"
+                          style={{
+                            marginTop: '2rem',
+                            padding: '1.5rem',
+                            background: 'rgba(255,255,255,0.05)',
+                            borderRadius: '1rem',
+                            border: '1px solid rgba(255,255,255,0.1)'
+                          }}
+                        >
+                          <h4 style={{fontSize: '1.1rem', marginBottom: '0.75rem'}}>🛡️ COSMO-Check Recommendation</h4>
+                          <p style={{fontSize: '1.02rem'}}>{selectedTrend.recommendations}</p>
+                        </div>
+
+                        {/* Dermatology add-on block */}
+                        {selectedTrend.dermConsensus && (
+                          <div
+                            style={{
+                              marginTop: '2rem',
+                              padding: '1.5rem',
+                              background: 'rgba(15,23,42,0.85)',
+                              borderRadius: '1rem',
+                              border: '1px solid rgba(56,189,248,0.3)',
+                              textAlign: 'left'
+                            }}
+                          >
+                            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                              <h4 style={{fontSize: '1.05rem', margin: 0}}>🩺 Dermatologist Consensus</h4>
+                              <div style={{fontSize: '0.9rem', color: 'var(--muted)'}}>
+                                Avg. safety rating:{' '}
+                                <strong>{selectedTrend.dermConsensus.rating.toFixed(1)} / 5</strong>
+                              </div>
+                            </div>
+                            <p style={{marginTop: '0.75rem', fontSize: '0.98rem'}}>
+                              {selectedTrend.dermConsensus.summary}
+                            </p>
+
+                            {selectedTrend.dermExperts && selectedTrend.dermExperts.length > 0 && (
+                              <div style={{marginTop: '1rem'}}>
+                                <div style={{fontSize: '0.9rem', marginBottom: '0.5rem', color: 'var(--muted)'}}>
+                                  Featured dermatologists who rated this trend:
+                                </div>
+                                <div style={{display: 'flex', flexDirection: 'column', gap: '0.5rem'}}>
+                                  {selectedTrend.dermExperts.map((d, idx) => (
+                                    <a
+                                      key={idx}
+                                      href={d.url}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      style={{
+                                        display: 'flex',
+                                        justifyContent: 'space-between',
+                                        alignItems: 'baseline',
+                                        padding: '0.5rem 0.75rem',
+                                        borderRadius: '0.75rem',
+                                        background: 'rgba(15,23,42,0.9)',
+                                        border: '1px solid rgba(148,163,184,0.4)',
+                                        textDecoration: 'none',
+                                        color: 'var(--text)'
+                                      }}
+                                    >
+                                      <div>
+                                        <div style={{fontWeight: 600}}>{d.name}</div>
+                                        <div style={{fontSize: '0.85rem', color: 'var(--muted)'}}>{d.tagline}</div>
+                                      </div>
+                                      <span style={{fontSize: '0.85rem', color: '#38bdf8'}}>View consulting page →</span>
+                                    </a>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        )}
+
+                        <div style={{marginTop: '2rem', color: 'var(--muted)', fontSize: '0.95rem'}}>
+                          {selectedTrend.reports || 0} community reports • {selectedTrend.lastUpdated || 'Just now'}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* REPORT */}
+            {activeTab === 'report' && (
+              <div className="max-w-lg mx-auto animate-fade-in-up">
+                <form onSubmit={handleSubmitReport} className="card" style={{display: 'grid', gap: '1.5rem'}}>
+                  <h2 className="h2" style={{textAlign: 'center'}}>Report Skin Reaction</h2>
+
+                  <div>
+                    <label style={{display: 'block', marginBottom: '0.5rem', fontWeight: 600}}>Trend / Product</label>
+                    <input
+                      required
+                      value={reportForm.trendName}
+                      onChange={(e) => setReportForm({...reportForm, trendName: e.target.value})}
+                      placeholder="e.g. DIY Vitamin C serum"
+                    />
+                  </div>
+
+                  <div>
+                    <label style={{display: 'block', marginBottom: '0.5rem', fontWeight: 600}}>Brand (optional)</label>
+                    <input
+                      value={reportForm.brandName}
+                      onChange={(e) => setReportForm({...reportForm, brandName: e.target.value})}
+                      placeholder="e.g. The Ordinary"
+                    />
+                  </div>
+
+                  <div>
+                    <label style={{display: 'block', marginBottom: '0.75rem', fontWeight: 600}}>Symptoms</label>
+                    <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '0.75rem'}}>
+                      {symptomOptions.map(symptom => (
+                        <label key={symptom} style={{cursor: 'pointer', fontSize: '0.9rem'}}>
+                          <input
+                            type="checkbox"
+                            checked={reportForm.symptoms.includes(symptom)}
+                            onChange={(e) => {
+                              const symptoms = e.target.checked
+                                ? [...reportForm.symptoms, symptom]
+                                : reportForm.symptoms.filter(s => s !== symptom);
+                              setReportForm({...reportForm, symptoms});
+                            }}
+                            style={{marginRight: '0.5rem'}}
+                          />
+                          {symptom}
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
+                  <button type="submit" className="btn btn-primary" style={{width: '100%', fontSize: '1rem', padding: '1rem'}}>
+                    Submit Anonymous Report
+                  </button>
+
+                  <div style={{textAlign: 'center', color: 'var(--muted)', fontSize: '0.9rem'}}>
+                    Your data helps protect everyone ✨
+                  </div>
+                </form>
+              </div>
+            )}
+
+            {/* BRANDS */}
+            {activeTab === 'brands' && (
+              <div className="grid grid-3 animate-fade-in-up" style={{gap: '1.5rem'}}>
+                {brands.map(brand => (
+                  <div
+                    key={brand.id}
+                    className={`card p-6 text-center ${getRiskClass(brand.status)} hover:scale-[1.02] transition-all cursor-pointer`}
+                    onClick={() => setSelectedBrand(brand)}
+                  >
+                    <div style={{fontSize: '2.5rem', marginBottom: '1rem'}}>{brand.logo}</div>
+                    <h3 className="h3" style={{marginBottom: '0.25rem'}}>{brand.name}</h3>
+                    <div className="risk-score" style={{fontSize: '2.3rem'}}>{brand.avgRiskScore}</div>
+                    <div style={{margin: '1rem 0', color: 'var(--muted)'}}>
+                      {brand.trendCount} trends • {brand.totalReports} reports
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* ALERTS */}
+            {activeTab === 'alerts' && (
+              <div className="grid grid-2 animate-fade-in-up">
+                <div className="card">
+                  <h2 className="h2" style={{marginBottom: '1.5rem'}}>🔥 Top Risk Trends</h2>
+                  {trends
+                    .slice()
+                    .sort((a,b) => b.riskScore - a.riskScore)
+                    .map(trend => (
+                      <div
+                        key={trend.id}
+                        className={`p-4 mb-4 rounded-xl ${getRiskClass(trend.status)} cursor-pointer hover:bg-white/5`}
+                        onClick={() => { setSelectedTrend(trend); setActiveTab('check'); }}
+                      >
+                        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                          <div>
+                            <div style={{fontWeight: 600, marginBottom: '0.2rem'}}>{trend.name}</div>
+                            {trend.dermConsensus && (
+                              <div style={{fontSize: '0.85rem', color: 'var(--muted)'}}>
+                                🩺 Derm: {trend.dermConsensus.label}
+                              </div>
+                            )}
+                          </div>
+                          <span className="risk-score" style={{fontSize: '2.2rem'}}>{trend.riskScore}</span>
+                        </div>
+                      </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* DERMATOLOGISTS / COSMO-DERM NETWORK */}
+            {activeTab === 'derms' && (
+              <div className="grid grid-2 animate-fade-in-up">
+                <div className="card">
+                  <h2 className="h2">COSMO-Derm Network</h2>
+                  <p style={{color: 'var(--muted)', fontSize: '0.98rem', marginBottom: '1.5rem'}}>
+                    COSMO-Derm is our invite-only network of verified dermatologists who:
+                  </p>
+                  <ul style={{paddingLeft: '1.2rem', fontSize: '0.95rem', color: 'var(--muted)'}}>
+                    <li>Review and rate viral beauty trends inside the app</li>
+                    <li>Shape harm-reduction guidance shown to thousands of users</li>
+                    <li>Get anonymized analytics on which trends are driving clinic visits</li>
+                    <li>Can link their own tele-dermatology / clinic pages for paid consults</li>
+                  </ul>
+
+                  <div style={{marginTop: '2rem', fontSize: '0.9rem', color: 'var(--muted)'}}>
+                    <strong>Monetization model:</strong> COSMO-Check stays free for users.  
+                    Dermatologists can optionally offer paid consults via their own booking links,
+                    which appear when users tap their profile from trend pages.
+                  </div>
+
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      alert('🩺 Thank you! We\'ve recorded your interest in COSMO-Derm.');
+                      e.target.reset();
+                    }}
+                    style={{marginTop: '2rem', display: 'grid', gap: '0.9rem'}}
+                  >
+                    <h3 className="h3">Apply as a Dermatology Partner</h3>
+                    <input type="text" required placeholder="Full name" />
+                    <input type="email" required placeholder="Professional email" />
+                    <input type="text" placeholder="Clinic / Hospital / Practice name" />
+                    <input type="url" placeholder="Consulting / booking page URL" />
+                    <select>
+                      <option value="">Main expertise area</option>
+                      <option>Acne & barrier repair</option>
+                      <option>Hyperpigmentation / skin of color</option>
+                      <option>Retinoids & anti-aging</option>
+                      <option>General / other</option>
+                    </select>
+                    <button type="submit" className="btn btn-primary" style={{marginTop: '0.5rem'}}>
+                      I’m a dermatologist – keep me posted
+                    </button>
+                  </form>
+                </div>
+
+                <div className="card">
+                  <h2 className="h2">Featured Dermatologists</h2>
+                  <p style={{color: 'var(--muted)', fontSize: '0.9rem', marginBottom: '1rem'}}>
+                    Tap a profile to open their consulting page in a new tab.
+                  </p>
+                  <div style={{display: 'grid', gap: '0.9rem'}}>
+                    {dermatologists.map(d => (
+                      <a
+                        key={d.id}
+                        href={d.consultUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          padding: '0.9rem 1rem',
+                          borderRadius: '1rem',
+                          background: 'rgba(15,23,42,0.9)',
+                          border: '1px solid rgba(148,163,184,0.5)',
+                          textDecoration: 'none',
+                          color: 'var(--text)',
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'flex-start',
+                          gap: '0.75rem'
+                        }}
+                      >
+                        <div>
+                          <div style={{fontWeight: 600}}>{d.name}</div>
+                          <div style={{fontSize: '0.85rem', color: 'var(--muted)'}}>{d.location}</div>
+                          <div style={{fontSize: '0.85rem', marginTop: '0.4rem'}}>{d.expertise}</div>
+                        </div>
+                        <div style={{textAlign: 'right', fontSize: '0.85rem', color: '#4ade80'}}>
+                          ⭐ {d.rating.toFixed(1)} / 5<br />
+                          <span style={{color: '#38bdf8'}}>View consulting page →</span>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+          </main>
+        </div>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<CosmoCheckApp />);
+  </script>
+</body>
+</html>
