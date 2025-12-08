@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>COSMO-Check – Protect Your Skin from Viral Beauty Trends</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta
+name="description"
+content="COSMO-Check is a safety app that helps you check whether viral beauty trends and skincare hacks are safe for your skin, with dermatologist-backed recommendations."
+/>
+<style>
+:root {
+--bg: #0f172a;
+--bg-soft: #111827;
+--primary: #6d28d9;
+--primary-soft: #a855f7;
+--accent: #f97316;
+--text: #e5e7eb;
+--muted: #9ca3af;
+--card: #020617;
+}
+
+* {
+box-sizing: border-box;
+}
+
+body {
+margin: 0;
+font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+sans-serif;
+background: radial-gradient(circle at top, #1f2937 0, #020617 55%);
+color: var(--text);
+line-height: 1.5;
+}
+
+a {
+color: inherit;
+text-decoration: none;
+}
+
+header {
+position: sticky;
+top: 0;
+z-index: 20;
+backdrop-filter: blur(12px);
+background: rgba(2, 6, 23, 0.8);
+border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.nav {
+max-width: 1100px;
+margin: 0 auto;
+padding: 0.75rem 1.25rem;
+display: flex;
+align-items: center;
+justify-content: space-between;
+}
+
+.logo {
+display: flex;
+align-items: center;
+gap: 0.5rem;
+font-weight: 700;
+letter-spacing: 0.04em;
+}
+
+.logo-mark {
+width: 28px;
+height: 28px;
+border-radius: 999px;
+background: conic-gradient(
+from 180deg,
+var(--primary),
+var(--primary-soft),
+var(--accent),
+var(--primary)
+);
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 0.7rem;
+color: white;
+}
+
+nav ul {
+list-style: none;
+display: flex;
+gap: 1.25rem;
+padding: 0;
+margin: 0;
+font-size: 0.93rem;
+}
+
+nav li a {
+color: var(--muted);
+}
+
+nav li a:hover {
+color: var(--text);
+}
+
+.nav-cta {
+display: flex;
+gap: 0.75rem;
+align-items: center;
+}
+
+.btn {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+padding: 0.55rem 1.1rem;
+border-radius: 999px;
+border: 1px solid transparent;
+font-size: 0.9rem;
+font-weight: 500;
+cursor: pointer;
+background: none;
+color: var(--text);
+}
+
+.btn-primary {
+background: linear-gradient(135deg, var(--primary), var(--primary-soft));
+border-color: rgba(129, 140, 248, 0.6);
+box-shadow: 0 10px 25px rgba(88, 28, 135, 0.35);
+}
+
+.btn-primary:hover {
+filter: brightness(1.05);
+}
+
+.btn-ghost {
+border-color: rgba(148, 163, 184, 0.5);
+color: var(--muted);
+}
+
+.btn-ghost:hover {
+border-color: rgba(236, 252, 203, 0.8);
+color: var(--text);
+}
+
+main {
+max-width: 1100px;
+margin: 0 auto;
+padding: 1.5rem 1.25rem 4rem;
+}
+
+section {
+padding: 4rem 0;
+border-bottom: 1px solid rgba(51, 65, 85, 0.7);
+}
+
+/* Hero */
+.hero {
+display: grid;
+grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+gap: 2.5rem;
+align-items: center;
+padding-top: 3rem;
+}
+
+.hero-kicker {
+font-size: 0.85rem;
+text-transform: uppercase;
+letter-spacing: 0.15em;
+color: var(--accent);
+font-weight: 600;
+margin-bottom: 0.75rem;
+}
+
+.hero h1 {
+font-size: clamp(2.2rem, 3.1vw, 3rem);
+margin: 0 0 1rem;
+}
+
+.hero h1 span {
+background: linear-gradient(135deg, var(--primary-soft), #fbbf24);
+-webkit-background-clip: text;
+color: transparent;
+}
+
+.hero p {
+color: var(--muted);
+font-size: 0.98rem;
+max-width: 34rem;
+margin-bottom: 1.5rem;
+}
+
+.hero-ctas {
+display: flex;
+flex-wrap: wrap;
+gap: 0.75rem;
+align-items: center;
+margin-bottom: 1.5rem;
+}
+
+.hero-footnote {
+font-size: 0.8rem;
+color: var(--muted);
+}
+
+.hero-card {
+background: radial-gradient(circle at top, #1e293b 0, #020617 55%);
+border-radius: 1.25rem;
+padding: 1.25rem 1.2rem;
+border: 1px solid rgba(148, 163, 184, 0.35);
+box-shadow: 0 18px 40px rgba(15, 23, 42, 0.9);
+font-size: 0.85rem;
+}
+
+.hero-pill {
+display: inline-flex;
+align-items: center;
+gap: 0.4rem;
+padding: 0.18rem 0.6rem;
+border-radius: 999px;
+font-size: 0.7rem;
+background: rgba(15, 23, 42, 0.9);
+border: 1px solid rgba(148, 163, 184, 0.4);
+margin-bottom: 0.6rem;
+color: var(--muted);
+}
+
+.hero-card-title {
+font-weight: 600;
+margin-bottom: 0.4rem;
+}
+
+.hero-taglist {
+display: flex;
+flex-wrap: wrap;
+gap: 0.3rem;
+margin-top: 0.75rem;
+}
+
+.tag {
+font-size: 0.7rem;
+padding: 0.15rem 0.55rem;
+border-radius: 999px;
+border: 1px solid rgba(148, 163, 184, 0.4);
+color: var(--muted);
+}
+
+/* Generic layout helpers */
+.section-heading {
+font-size: 1.5rem;
+margin-bottom: 0.8rem;
+}
+
+.section-subtitle {
+color: var(--muted);
+max-width: 38rem;
+font-size: 0.95rem;
+margin-bottom: 2rem;
+}
+
+.grid-3 {
+display: grid;
+grid-template-columns: repeat(3, minmax(0, 1fr));
+gap: 1.5rem;
+}
+
+.grid-2 {
+display: grid;
+grid-template-columns: repeat(2, minmax(0, 1fr));
+gap: 1.5rem;
+}
+
+.card {
+background: linear-gradient(145deg, rgba(15, 23, 42, 0.95), #020617);
+border-radius: 1rem;
+border: 1px solid rgba(148, 163, 184, 0.4);
+padding: 1.3rem 1.2rem;
+font-size: 0.9rem;
+}
+
+.card h3 {
+margin-top: 0;
+font-size: 1rem;
+margin-bottom: 0.45rem;
+}
+
+.card p {
+margin: 0.2rem 0 0.8rem;
+color: var(--muted);
+font-size: 0.87rem;
+}
+
+.pill-label {
+display: inline-block;
+font-size: 0.7rem;
+text-transform: uppercase;
+letter-spacing: 0.1em;
+color: var(--accent);
+margin-bottom: 0.5rem;
+}
+
+.small {
+font-size: 0.83rem;
+}
+
+.muted {
+color: var(--muted);
+}
+
+.mt-sm {
+margin-top: 0.75rem;
+}
+
+.mt-md {
+margin-top: 1.25rem;
+}
+
+.mt-lg {
+margin-top: 2rem;
+}
+
+/* Forms */
+form {
+display: flex;
+flex-wrap: wrap;
+gap: 0.75rem;
+align-items: center;
+}
+
+input,
+select,
+textarea {
+background: #020617;
+border-radius: 999px;
+border: 1px solid rgba(148, 163, 184, 0.6);
+padding: 0.6rem 0.9rem;
+color: var(--text);
+font-size: 0.9rem;
+min-width: 220px;
+outline: none;
+}
+
+textarea {
+border-radius: 0.75rem;
+min-width: 100%;
+min-height: 80px;
+resize: vertical;
+}
+
+input::placeholder,
+textarea::placeholder {
+color: #64748b;
+}
+
+/* FAQ */
+.faq-item {
+border-radius: 0.75rem;
+border: 1px solid rgba(51, 65, 85, 0.8);
+padding: 0.9rem 0.9rem;
+margin-bottom: 0.8rem;
+background: rgba(15, 23, 42, 0.7);
+}
+
+.faq-q {
+font-weight: 500;
+margin-bottom: 0.3rem;
+}
+
+.faq-a {
+font-size: 0.86rem;
+color: var(--muted);
+}
+
+footer {
+padding: 2rem 0 0.75rem;
+font-size: 0.8rem;
+color: var(--muted);
+border-top: 1px solid rgba(30, 64, 175, 0.6);
+margin-top: 2rem;
+}
+
+.footer-inner {
+max-width: 1100px;
+margin: 0 auto;
+padding: 0 1.25rem;
+display: flex;
+flex-wrap: wrap;
+justify-content: space-between;
+gap: 0.75rem;
+align-items: center;
+}
+
+.footer-links {
+display: flex;
+gap: 0.85rem;
+}
+
+.footer-links a {
+color: var(--muted);
+}
+
+.footer-links a:hover {
+color: var(--text);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+.hero {
+grid-template-columns: minmax(0, 1fr);
+}
+nav ul {
+display: none; /* simple mobile nav for now */
+}
+}
+
+@media (max-width: 768px) {
+section {
+padding: 3rem 0;
+}
+.grid-3,
+.grid-2 {
+grid-template-columns: minmax(0, 1fr);
+}
+.hero h1 {
+font-size: 2.1rem;
+}
+}
+</style>
+</head>
+<body>
+<header>
+<div class="nav">
+<div class="logo">
+<div class="logo-mark">C</div>
+<span>COSMO-Check</span>
+</div>
+<nav>
+<ul>
+<li><a href="#how">How it works</a></li>
+<li><a href="#features">Features</a></li>
+<li><a href="#derm">For Dermatologists</a></li>
+<li><a href="#faq">FAQ</a></li>
+</ul>
+</nav>
+<div class="nav-cta">
+<a href="#waitlist" class="btn btn-ghost">Join waitlist</a>
+</div>
+</div>
+</header>
+
+<main>
+<!-- HERO -->
+<section class="hero" id="top">
+<div>
+<div class="hero-kicker">Skin safety in a viral world</div>
+<h1>
+Protect your skin from <span>viral beauty trends</span>.
+</h1>
+<p>
+COSMO-Check is a safety app that analyzes skincare trends, ingredient
+combos, and dermatologist input to warn you before your skin gets
+burned, irritated, or damaged.
+</p>
+      <div class="hero-ctas">
+        <a href="file:///Users/aishwaryaacharya/Library/Mobile%20Documents/com~apple~TextEdit/Documents/Dermetology%20section.html"
+           class="btn btn-primary">
+          Click to access the app
+        </a>
+        <a href="#derm" class="btn btn-ghost">I’m a dermatologist</a>
+      </div>
+
+<div class="hero-footnote">
+No gimmicks, no fear-mongering — just clear, evidence-based guidance
+for your skin.
+</div>
+</div>
+<div class="hero-card">
+<div class="hero-pill">Sample trend safety view</div>
+<div class="hero-card-title">“DIY TCA Peel at Home”</div>
+<p class="small">
+COSMO-Risk Score: <strong style="color:#f97316;">92 / 100 (High damage potential)</strong>
+</p>
+<p class="small muted">
+Most common issues: chemical burns, hyperpigmentation, barrier breakdown.
+Dermatologist consensus: <strong>“Avoid this trend.”</strong>
+</p>
+<div class="hero-taglist">
+<span class="tag">Face peels</span>
+<span class="tag">Chemical burns</span>
+<span class="tag">TikTok trend</span>
+<span class="tag">Derm-flagged</span>
+</div>
+</div>
+</section>
+
+<!-- PROBLEM + HOW IT WORKS -->
+<section id="how">
+<h2 class="section-heading">Why COSMO-Check?</h2>
+<p class="section-subtitle">
+Viral skincare hacks spread faster than good science. Dermatologists are
+seeing more burns, pigment problems, and barrier damage from DIY trends —
+and there’s no simple way for people to check if a trend is safe for
+their skin. COSMO-Check is here to change that.
+</p>
+
+<div class="grid-3">
+<div class="card">
+<div class="pill-label">Problem</div>
+<h3>Viral doesn’t mean safe</h3>
+<p>
+People copy beauty trends from TikTok and Instagram without knowing the
+risk. Aesthetic filters hide real skin damage until it’s too late.
+</p>
+</div>
+<div class="card">
+<div class="pill-label">Problem</div>
+<h3>Derm visits after the damage</h3>
+<p>
+Dermatologists often only see patients after burns, peeling, and dark
+marks have already appeared. Most of this harm was preventable.
+</p>
+</div>
+<div class="card">
+<div class="pill-label">Solution</div>
+<h3>Safety checks before you try it</h3>
+<p>
+COSMO-Check gives you a clear risk score, expert insights, and safer
+alternatives <em>before</em> you put anything on your skin.
+</p>
+</div>
+</div>
+
+<div class="mt-lg">
+<h3 class="section-heading">How COSMO-Check works</h3>
+<div class="grid-3">
+<div class="card">
+<h3>1. Search a trend or routine</h3>
+<p>
+Type in a viral hack (“microneedling with vitamin C”, “slugging,
+“skin cycling”) or paste a product combo you’re thinking of using.
+</p>
+</div>
+<div class="card">
+<h3>2. We analyze risk</h3>
+<p>
+Our engine combines ingredient data, dermatology literature,
+real-world harm reports, and expert reviews to compute a COSMO-Risk
+Score tailored to your skin profile.
+</p>
+</div>
+<div class="card">
+<h3>3. You get a clear answer</h3>
+<p>
+See how risky the trend is, what could go wrong, what dermatologists
+say, and which safer alternatives you can try instead.
+</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+<h2 class="section-heading">What COSMO-Check does for you</h2>
+<p class="section-subtitle">
+A calm, science-driven guide in a world of loud beauty advice. COSMO-Check
+is built to be useful on day one, even before the full app launches.
+</p>
+
+<div class="grid-2">
+<div class="card">
+<h3>Trend Safety Scanner</h3>
+<p>
+Search any trend or hack and see a COSMO-Risk Score, a simple safety
+label, and a breakdown of the most common skin issues linked to it.
+</p>
+</div>
+<div class="card">
+<h3>Ingredient Interaction Checker</h3>
+<p>
+Enter products or ingredients and instantly see if the combo is likely
+to irritate, over-exfoliate, or increase sun sensitivity.
+</p>
+</div>
+<div class="card">
+<h3>Personalized Skin Profile</h3>
+<p>
+Tell us your skin type, tone, and sensitivities so we can highlight
+trends that are especially risky (or safe) for <em>your</em> skin.
+</p>
+</div>
+<div class="card">
+<h3>Safe Alternatives</h3>
+<p>
+Instead of just “don’t do this,” COSMO-Check suggests gentler, evidence-based
+options you can discuss with your dermatologist or try yourself.
+</p>
+</div>
+</div>
+</section>
+
+<!-- DERMATOLOGISTS -->
+<section id="derm">
+<h2 class="section-heading">For Dermatologists: COSMO-Derm Network</h2>
+<p class="section-subtitle">
+COSMO-Check isn’t just algorithms. We’re building COSMO-Derm, a network
+of verified dermatologists who review viral trends, rate safety, and help
+shape harm-reduction guidance seen by thousands of users.
+</p>
+
+<div class="grid-2">
+<div class="card">
+<h3>Review & rate viral trends</h3>
+<p>
+Access a dashboard of emerging skincare hacks, product misuse
+patterns, and user-reported injuries. Add your safety rating,
+short comments, and safer-alternative suggestions.
+</p>
+<p class="small muted mt-sm">
+Example consensus card users see:
+<br />
+<strong>“Dermatologists recommend avoiding this trend (1.4/5 safety rating).”</strong>
+</p>
+</div>
+<div class="card">
+<h3>Educate at scale, prevent harm</h3>
+<p>
+Your expertise appears directly inside COSMO-Check in language
+people understand. Help prevent chemical burns, PIH, and barrier
+damage before they reach your clinic.
+</p>
+<p class="small muted mt-sm">
+We verify licenses, highlight skin-of-color expertise, and plan
+future options for research collaborations and telederm referrals.
+</p>
+</div>
+</div>
+
+<div class="mt-md">
+<div class="pill-label">Dermatologist interest form</div>
+<p class="small muted">
+If you’re a dermatologist interested in shaping safer beauty behavior,
+leave your details below and we’ll reach out when COSMO-Derm opens.
+</p>
+<!-- Simple placeholder form; wire to Formspree / Firebase later -->
+<form id="derm-form">
+<input type="text" name="name" placeholder="Full name" required />
+<input type="email" name="email" placeholder="Professional email" required />
+<input type="text" name="location" placeholder="Country / City" />
+<select name="role">
+<option value="">I am a...</option>
+<option value="derm">Board-certified dermatologist</option>
+<option value="resident">Dermatology resident</option>
+<option value="hcp">Other skin-focused HCP</option>
+</select>
+<button class="btn btn-primary" type="submit">I’m interested</button>
+</form>
+<p id="derm-msg" class="small mt-sm" style="display:none;">
+Thank you! We’ve recorded your interest and will be in touch as we open the COSMO-Derm network.
+</p>
+</div>
+</section>
+
+<!-- WAITLIST -->
+<section id="waitlist">
+<h2 class="section-heading">Be the first to try COSMO-Check</h2>
+<p class="section-subtitle">
+We’re building COSMO-Check with input from dermatologists and early
+users. Join the waitlist for early access, product updates, and a say
+in which features we build first.
+</p>
+
+<!-- Simple placeholder form; connect this to a backend or form service -->
+<form id="waitlist-form">
+<input type="email" name="email" placeholder="Email address" required />
+<select name="role">
+<option value="">I am a...</option>
+<option value="consumer">Skin / beauty enthusiast</option>
+<option value="derm">Dermatologist / HCP</option>
+<option value="brand">Brand / creator</option>
+<option value="other">Other</option>
+</select>
+<button class="btn btn-primary" type="submit">Join waitlist</button>
+</form>
+<p id="waitlist-msg" class="small mt-sm" style="display:none;">
+Thank you for joining! We’ll email you when COSMO-Check is ready for early access.
+</p>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+<h2 class="section-heading">FAQ</h2>
+<p class="section-subtitle">
+A few quick answers while we build.
+</p>
+<div>
+<div class="faq-item">
+<div class="faq-q">Is COSMO-Check a replacement for my dermatologist?</div>
+<div class="faq-a">
+No. COSMO-Check is a safety and education tool, not a diagnosis or
+treatment service. It’s designed to help you avoid preventable harm
+and have better conversations with your dermatologist.
+</div>
+</div>
+<div class="faq-item">
+<div class="faq-q">How does the COSMO-Risk Score work?</div>
+<div class="faq-a">
+The score is a 0–100 scale combining ingredient safety data,
+evidence from dermatology, real-world harm reports, and (in the
+future) dermatologist reviews. It’s meant to be easy to interpret:
+0–25 safe, 26–50 use caution, 51–75 risky, 76–100 high damage
+potential.
+</div>
+</div>
+<div class="faq-item">
+<div class="faq-q">Will COSMO-Check tell me what products to buy?</div>
+<div class="faq-a">
+The focus is on safety, not selling. We’ll suggest safer categories
+or routines (“gentle exfoliant,” “SPF 30+ daily”), and in the future
+may curate evidence-based options with transparent criteria.
+</div>
+</div>
+<div class="faq-item">
+<div class="faq-q">Is COSMO-Check built for all skin tones?</div>
+<div class="faq-a">
+Yes. Preventing hyperpigmentation and barrier damage in deeper skin
+tones is a core design principle. We aim to highlight how risk
+differs by skin type and tone, and to bring in dermatologists with
+expertise in skin of color.
+</div>
+</div>
+<div class="faq-item">
+<div class="faq-q">When will the app be available?</div>
+<div class="faq-a">
+We’re in the early build and validation phase. Join the waitlist to
+be the first to know about beta access and launch timelines.
+</div>
+</div>
+</div>
+</section>
+</main>
+
+<footer>
+<div class="footer-inner">
+<div>
+© 2025 COSMO-Check. All rights reserved.
+</div>
+<div class="footer-links">
+<a href="#top">Back to top</a>
+<a href="#derm">For dermatologists</a>
+<a href="#waitlist">Join waitlist</a>
+</div>
+</div>
+</footer>
+
+<script>
+// Super simple "thank you" handlers (no real backend yet)
+document.getElementById('waitlist-form').addEventListener('submit', function(e) {
+e.preventDefault();
+document.getElementById('waitlist-msg').style.display = 'block';
+this.reset();
+});
+
+document.getElementById('derm-form').addEventListener('submit', function(e) {
+e.preventDefault();
+document.getElementById('derm-msg').style.display = 'block';
+this.reset();
+});
+</script>
+</body>
+</html>
